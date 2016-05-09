@@ -23,7 +23,7 @@ public partial class _Default : System.Web.UI.Page
             Response.Write("IP: " + ip + "</br>");
 
             //This is the local IP in our test environment
-            if (!ip.Equals("::2"))
+            if (!ip.Equals("::1"))
             {
                 string city = String.Empty;
                 string country = String.Empty;
