@@ -20,8 +20,49 @@ public partial class _Default : System.Web.UI.Page
             {
                 ip = httpReq.ServerVariables["REMOTE_ADDR"];
             }
-            Response.Write("IP: " + ip);
+            Response.Write("IP: " + ip + "</br>");
+
+            //This is the local IP in our test environment
+            if (!ip.Equals("::2"))
+            {
+                string city = String.Empty;
+                string country = String.Empty;
+                string region = String.Empty;
+
+                //System.Xml.XmlTextReader hostIPInfoReader = new System.Xml.XmlTextReader("http://freegeoip.net/xml/?q=" + ip);
+                System.Xml.XmlTextReader hostIPInfoReader = new System.Xml.XmlTextReader("http://api.ipinfodb.com/v3/ip-city/?key=fa99e1cbc2f3dc6f26cc3e2674456979e8aa93f26e64e266ed31062604b9e63f&format=xml&ip=" + ip);
+                try
+                {
+
+                    while (hostIPInfoReader.Read())
+                    {
+                        if (hostIPInfoReader.IsStartElement())
+                        {
+                            Response.Write(hostIPInfoReader.Name + ":" + hostIPInfoReader.ReadString() + "</br>");
+                        }
+                    }
+                }
+                //        if (hostIPInfoReader.Name == "City")
+                //            city = hostIPInfoReader.ReadString();
+
+                //        if (hostIPInfoReader.Name == "CountryName")
+                //            country = hostIPInfoReader.ReadString();
+
+                //        if (hostIPInfoReader.Name == "RegionName")
+                //            region = hostIPInfoReader.ReadString();
+
+                //    }
+                //}
+                //Response.Write("City: " + city + " Country: " + country + " Region: " + region + "</br>" );
+                //}
+                catch
+                {
+                    Response.Write("ip geo-lookup failed" + "</br>");
+                }
+            }
+
+
         }
 
-   }
+    }
 }
